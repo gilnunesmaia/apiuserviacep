@@ -18,7 +18,7 @@ public class UserController {
     UserService user;
 
     @PostMapping("register")
-    public void register(@RequestBody User newUser) throws InvalidDataException {
+    public void register(@RequestBody User newUser) throws Exception {
         user.reg(newUser);
     }
 

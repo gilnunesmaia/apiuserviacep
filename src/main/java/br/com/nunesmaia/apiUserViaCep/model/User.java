@@ -11,7 +11,7 @@ import lombok.*;
 @Getter
 @Setter
 @Entity
-@Table(name="USER_TABLE")
+@Table(name = "USER_TABLE")
 public class User {
 
     @Id
@@ -19,14 +19,14 @@ public class User {
     private Long Id;
 
     @NotBlank
-   private String name;
+    private String name;
 
     @NotBlank
-   private String email;
+    private String email;
 
     @NotBlank
-   private String password;
+    private String password;
 
     @NotNull
-   private Long postalCode;
+    private String postalCode;
 }

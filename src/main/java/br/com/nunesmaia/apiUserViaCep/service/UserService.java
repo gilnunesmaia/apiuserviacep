@@ -19,10 +19,9 @@ public class UserService {
     private final UserRepository userRepository;
 
     public void reg(User u) throws Exception {
-        this.validateEAP(u.getEmail(), u.getPassword());
-        if (u.getName() == null || u.getName().trim().isEmpty()) {
-            throw new InvalidDataException("Nome vazio");
-        }
+
+        this.validateEAP(u.getEmail(), u.getPassword(), u.getName(), u.getPostalCode());
+
         String password = this.encryptPassword(u.getPassword());
 
         u.setPassword(password);
@@ -33,14 +32,20 @@ public class UserService {
     }
 
 
-
-    private void validateEAP(String email, String password) throws InvalidDataException {
+    private void validateEAP(String email, String password, String name, String PC) throws InvalidDataException {
         if (email == null || email.trim().isEmpty()) {
             throw new InvalidDataException("email vazio");
         }
         if (password == null || password.trim().isEmpty()) {
             throw new InvalidDataException("senha vazia");
         }
+        if (name == null || name.trim().isEmpty()) {
+            throw new InvalidDataException("nome inválido");
+        }
+        if (PC == null || PC.trim().isEmpty()) {
+            throw new InvalidDataException("CEP inválido");
+        }
+
     }
 
     private String encryptPassword(String password) throws Exception {

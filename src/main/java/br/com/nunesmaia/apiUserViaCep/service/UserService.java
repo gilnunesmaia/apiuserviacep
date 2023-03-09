@@ -2,6 +2,8 @@ package br.com.nunesmaia.apiUserViaCep.service;
 
 import br.com.nunesmaia.apiUserViaCep.exception.InvalidDataException;
 import br.com.nunesmaia.apiUserViaCep.model.User;
+import br.com.nunesmaia.apiUserViaCep.model.dto.DoisDTO;
+import br.com.nunesmaia.apiUserViaCep.model.dto.UmDTO;
 import br.com.nunesmaia.apiUserViaCep.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -59,6 +61,31 @@ public class UserService {
         String pass = new BigInteger(1, m.digest()).toString(16);
 
         return pass;
+    }
+
+    public DoisDTO login(UmDTO login) throws Exception {
+
+        this.validLogin(login.getEmail(), login.getPassword());
+        String passwordEncrypted = this.encryptPassword(login.getPassword());
+
+//retornar DoisDTO depois de validá-los e encontrá-los no banco de dados
+
+        //FIXME O MÉTODO RETORNA USER MAS A CHAMADA ESTÁ SENDO FEITA COMO VOID
+        userRepository.findByEmailAndPassword(login.getEmail(), login.getPassword());
+
+        DoisDTO user = new DoisDTO();
+
+        return user;
+
+    }
+
+    private void validLogin(String email, String password) throws InvalidDataException {
+        if (email == null || email.trim().isEmpty()) {
+            throw new InvalidDataException("email vazio");
+        }
+        if (password == null || password.trim().isEmpty()) {
+            throw new InvalidDataException("senha vazia");
+        }
     }
 
 

@@ -5,7 +5,7 @@ import lombok.ToString;
 
 @Getter
 @ToString
-public class UserDTO {
+public class UmDTO {
 
     private String email;
     private String password;

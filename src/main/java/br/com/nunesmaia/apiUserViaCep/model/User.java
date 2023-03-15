@@ -27,6 +27,7 @@ public class User {
     @NotBlank
     private String password;
 
-    @NotNull
+    @NotBlank
     private String postalCode;
+
 }

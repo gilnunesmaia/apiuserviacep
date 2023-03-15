@@ -6,7 +6,9 @@ import br.com.nunesmaia.apiUserViaCep.model.dto.DoisDTO;
 import br.com.nunesmaia.apiUserViaCep.model.dto.UmDTO;
 import br.com.nunesmaia.apiUserViaCep.repository.UserRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.math.BigInteger;
 import java.security.MessageDigest;
@@ -68,14 +70,23 @@ public class UserService {
         this.validLogin(login.getEmail(), login.getPassword());
         String passwordEncrypted = this.encryptPassword(login.getPassword());
 
-//retornar DoisDTO depois de validá-los e encontrá-los no banco de dados
+        // FIXME precisa de regra de negocio para tratar usuarios nao existentes
+        User user = userRepository.findByEmailAndPassword(login.getEmail(), passwordEncrypted);
 
-        //FIXME O MÉTODO RETORNA USER MAS A CHAMADA ESTÁ SENDO FEITA COMO VOID
-        userRepository.findByEmailAndPassword(login.getEmail(), login.getPassword());
 
-        DoisDTO user = new DoisDTO();
+        RestTemplate restTemplate = new RestTemplate();
 
-        return user;
+        // FIXME o CEP esta fixo, correto seria CEP do usuario
+        ResponseEntity<DoisDTO> resp = restTemplate.getForEntity("https://viacep.com.br/ws/40150080/json/", DoisDTO.class);
+
+        DoisDTO dd = resp.getBody();
+
+
+        dd.setName(user.getName());
+        dd.setEmail(user.getEmail());
+
+
+        return dd;
 
     }
 

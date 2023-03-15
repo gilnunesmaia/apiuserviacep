@@ -9,6 +9,8 @@ import lombok.ToString;
 @ToString
 public class DoisDTO {
 
+    private String name;
+    private String email;
     private String cep;
     private String logradouro;
     private String complemento;

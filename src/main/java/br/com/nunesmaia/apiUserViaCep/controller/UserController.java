@@ -1,33 +1,32 @@
 package br.com.nunesmaia.apiUserViaCep.controller;
 
-import br.com.nunesmaia.apiUserViaCep.exception.InvalidDataException;
 import br.com.nunesmaia.apiUserViaCep.model.User;
-import br.com.nunesmaia.apiUserViaCep.model.dto.UserDTO;
+import br.com.nunesmaia.apiUserViaCep.model.dto.DoisDTO;
+import br.com.nunesmaia.apiUserViaCep.model.dto.UmDTO;
 import br.com.nunesmaia.apiUserViaCep.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
 @RestController
 @RequestMapping("user")
 public class UserController {
 
     @Autowired
-    UserService user;
+    UserService userService;
 
-    @PostMapping("register")
+    @PostMapping("/register")
     public void register(@RequestBody User newUser) throws Exception {
-        user.reg(newUser);
+        userService.reg(newUser);
     }
 
-   // @PostMapping("/login")
-   // public User login(@RequestBody UserDTO userdto){
+    @PostMapping("/login")
+    public DoisDTO login(@RequestBody UmDTO umdto) throws Exception {
 
-    //}
+        return userService.login(umdto);
 
-
+    }
 
 
 }

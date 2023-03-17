@@ -24,7 +24,6 @@ public class UserService {
     private final UserRepository userRepository;
 
 
-
     public void reg(User u) throws Exception {
 
         this.validateEAP(u.getEmail(), u.getPassword(), u.getName(), u.getPostalCode());
@@ -74,13 +73,9 @@ public class UserService {
 
     public DoisDTO login(UmDTO login) throws Exception {
 
-        System.out.println("Dto email: " + login.getEmail() + " Dto senha:" + login.getPassword());
-        this.validLogin(login.getEmail(), login.getPassword());
         String passwordEncrypted = this.encryptPassword(login.getPassword());
-        System.out.println("Senha criptografada: " + passwordEncrypted);
 
         User user = userRepository.findByEmailAndPassword(login.getEmail(), passwordEncrypted);
-        System.out.println("Usuário encontrado: " + user);
 
         if (user == null) {
             throw new UserInvalid("Usuário não existe");
@@ -89,8 +84,6 @@ public class UserService {
         RestTemplate restTemplate = new RestTemplate();
 
         ResponseEntity<DoisDTO> resp = restTemplate.getForEntity("https://viacep.com.br/ws/" + user.getPostalCode() + "/json/", DoisDTO.class);
-
-        System.out.println("Resposta do ViaCep " + resp);
 
         DoisDTO dd = resp.getBody();
 
